@@ -1,0 +1,16 @@
+@Res.9_ DawninShadow (?:<td[^>]*?>)[\S\s]*?(?:</td>)
+
+但是这样不能解决嵌套问题，
+有个方案是用迭代法，简单做了个js实现
+const 这是JS实现 = (text) => {
+const result = [];
+while(text !== (text = text.replace(/<(td|dt|tt|dd)([^>]*?)>([\S\s]*?)<\/\1>/gi, s => s.replace(/</g, '[').replace(/>/g, ']').replace(/\[([^\]]+?)\]/g, (_, t) => '[' + t.match(/(________)(\d+)/) ? t.replace('(________)(\d+)', (__, m1, m2) => m1 + parseInt(m2, 10)) : '________0 ') + ']'))));
+text.replace(/\[(________(?:\d+)) (td|dt|tt|dd)([^>]*?)\]([\S\s]*?)\[\1 \/\2\]/gi, (_, __, t, p, c) => result.push(c.replace(/\[/g, '<').replace(/\]/g, '>').replace(/________\d+ /g, ''));
+return result;
+};
+
+当然如果直接用dom的selector是最简单的，
+const 直接用selector实现 = (text) => (_ = document.implementation.createHTMLDocument(), _.body.innerHTML = text, Array.prototype.map.call(_.body.querySelector('td'), (td) => td.innerHTML);document.implementation.createHTMLDocument(), _.body.innerHTML = text, Array.prototype.map.call(_.body.querySelectorAll('td'), (td) => td.innerHTML);
+python的话
+re.findall('<td>(.*?)<td>', '你要查的字符串')
+就可以弄出来一个列表了

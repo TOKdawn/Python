@@ -20,12 +20,13 @@ cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 html = opener.open(url).read()
 data = parse_form(html)
+print data
 data['username'] = LOGIN_NAME
 data['password'] = LOGIN_PASS
 
 encode_data = urllib.urlencode(data)
 request = urllib2.Request(url,encode_data)
 response=urllib2.urlopen(request)
-print response
+#print response
 #response = opener.open(request)
 #response.geturl()
